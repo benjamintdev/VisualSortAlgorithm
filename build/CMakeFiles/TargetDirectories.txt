@@ -1,0 +1,3 @@
+/Users/benjamint/Documents/GitHub/VisualSortAlgorithm/build/CMakeFiles/rebuild_cache.dir
+/Users/benjamint/Documents/GitHub/VisualSortAlgorithm/build/CMakeFiles/edit_cache.dir
+/Users/benjamint/Documents/GitHub/VisualSortAlgorithm/build/CMakeFiles/VisualSortAlgo.dir
