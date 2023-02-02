@@ -1,5 +1,6 @@
 #include "sortvisualizer.h"
 
+
 SortVisualizer::SortVisualizer(int screenwidth, int screenheight)
 {
   this->ScreenHeight = screenheight;
@@ -11,6 +12,7 @@ SortVisualizer::SortVisualizer(int screenwidth, int screenheight)
 void SortVisualizer::SetReset()
 {
 }
+
 
 void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 {
@@ -66,50 +68,56 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 
       std::random_device RandomDevice;
       std::mt19937 RandomGenerator(RandomDevice());
-      std::uniform_int_distribution<int> DimentionDistribution(0, 600);
+      std::uniform_int_distribution<int> ValueDistribution(0, 600);
       std::vector<int> test;
       for (int i = 0; i < 450; i++)
       {
-        test.emplace_back(DimentionDistribution(RandomGenerator));
+        test.emplace_back(ValueDistribution(RandomGenerator));
       }
-
-      // renderer.renderInsertSort(test, this->VisualizerSM);
-      renderer.renderBubbleSort(test, this->VisualizerSM);
-      // renderer.renderSelectSort(test, this->VisualizerSM);
 
       std::uniform_int_distribution<int> AlgoDistribution(1, 3);
 
-      // switch (AlgoDistribution(RandomGenerator))
-      // {
-      // case 1:
-      //   renderer.renderSelectSort(test, this->VisualizerSM);
-      //   break;
+      switch (AlgoDistribution(RandomGenerator))
+      // switch (5)
+      {
+      case 1:
+        renderer.renderSelectSort(test, this->VisualizerSM);
+        break;
 
-      // case 2:
-      //   renderer.renderBubbleSort(test, this->VisualizerSM);
-      //   break;
+      case 2:
+        renderer.renderBubbleSort(test, this->VisualizerSM);
+        break;
 
-      // case 3:
-      //   renderer.renderInsertSort(test, this->VisualizerSM);
-      //   break;
+      case 3:
+        renderer.renderInsertSort(test, this->VisualizerSM);
+        break;
 
-      // default:
-      //   break;
-      // }
+      case 4:
+        renderer.renderMergeSort(test, this->VisualizerSM);
+        break;
 
+      case 5:
+        renderer.renderQuickSort(test, this->VisualizerSM);
+        break;
+
+      default:
+        break;
+      }
+
+      // this->VisualizerSM.gotoStartIdleState();
     }
 
     if (this->VisualizerSM.getCurrentState() == STATE_END)
     {
       renderer.RenderEnd(this->VisualizerSM);
-      // static int count = 0;
-      // count++;
+      static int count = 0;
+      count++;
 
-      // if (count >= 100)
-      // {
-      //   this->VisualizerSM.gotoEndIdleState();
-      //   count = 0;
-      // }
+      if (count >= 100)
+      {
+        this->VisualizerSM.gotoEndIdleState();
+        count = 0;
+      }
     }
 
     if (this->VisualizerSM.getCurrentState() == STATE_INFO)

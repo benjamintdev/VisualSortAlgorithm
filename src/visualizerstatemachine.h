@@ -31,6 +31,8 @@ void gotoInfoIdleState();
 int getCurrentState();
 void setCurrentState(int state);
 
+
+
 private:
 int CurrentState;
 

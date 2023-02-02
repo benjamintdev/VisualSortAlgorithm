@@ -149,7 +149,7 @@ void swapInplace(int &a, int &b)
   a = a - b;
 }
 
-void Renderer::renderSelectSort(std::vector<int> Data, VisualizerStateMachine &VSM)
+void Renderer::renderSelectSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
 
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
@@ -180,7 +180,7 @@ void Renderer::renderSelectSort(std::vector<int> Data, VisualizerStateMachine &V
   VSM.gotoEndState();
 }
 
-void Renderer::renderBubbleSort(std::vector<int> Data, VisualizerStateMachine &VSM)
+void Renderer::renderBubbleSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
@@ -222,7 +222,7 @@ void Renderer::renderBubbleSort(std::vector<int> Data, VisualizerStateMachine &V
   VSM.gotoEndState();
 }
 
-void Renderer::renderInsertSort(std::vector<int> Data, VisualizerStateMachine &VSM)
+void Renderer::renderInsertSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
@@ -253,7 +253,7 @@ void Renderer::renderInsertSort(std::vector<int> Data, VisualizerStateMachine &V
   VSM.gotoEndState();
 }
 
-void Renderer::renderMergeSort(std::vector<int> Data, VisualizerStateMachine &VSM)
+void Renderer::renderMergeSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
@@ -262,7 +262,7 @@ void Renderer::renderMergeSort(std::vector<int> Data, VisualizerStateMachine &VS
   VSM.gotoEndState();
 }
 
-void Renderer::renderQuickSort(std::vector<int> Data, VisualizerStateMachine &VSM)
+void Renderer::renderQuickSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
@@ -339,17 +339,19 @@ void Renderer::RenderEnd(VisualizerStateMachine &VSM)
 
 void Renderer::RenderInfo(VisualizerStateMachine &VSM)
 {
+  std::cout << "Renderer::RenderInfo" << std::endl;
+
   SDL_RenderClear(SDLRenderer);
-
+  // Page title
   this->renderTextEffect("About", 128, 200, 50, 2);
-
+  // first paragraph
   this->renderTextEffect("My take and interpretation of a sorting algorithm visualization.", 32, 200, 200, 0);
   this->renderTextEffect("built with C++ and SDL2 (Simple DirectMedia Layer 2). ", 32, 200, 225, 0);
   this->renderTextEffect("as programming and sort algorithm practice. ", 32, 200, 250, 0);
   this->renderTextEffect("Please visit my github for code, github.com/benjamintdev ", 32, 200, 275, 0);
-
+  // seccond paragraph
   this->renderTextEffect("For main menu press Enter", 32, 200, 325, 0);
-
+  // footer
   this->renderTextEffect("www.libsdl.org", 16, 300, 550, 0);
   this->renderTextEffect("www.isocpp.org", 16, 300, 575, 0);
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
