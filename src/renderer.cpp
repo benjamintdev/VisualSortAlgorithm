@@ -142,13 +142,6 @@ void Renderer::RenderMenuText()
   // this->renderTextEffect("www.benjamint.dev", 16, 300, 600, 0);
 }
 
-void swapInplace(int &a, int &b)
-{
-  a = a + b;
-  b = a - b;
-  a = a - b;
-}
-
 void Renderer::renderSelectSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
 
@@ -174,7 +167,8 @@ void Renderer::renderSelectSort(std::vector<int> &Data, VisualizerStateMachine &
     // Swap the minimum element values found with 1st element of unsorted section (if not the same)
     if (!(MinimumValueIndex == i))
     {
-      swapInplace(Data.at(i), Data.at(MinimumValueIndex));
+      // swapInplace(Data.at(i), Data.at(MinimumValueIndex));
+      swapInplace(&Data.at(i), &Data.at(MinimumValueIndex));
     }
   }
   VSM.gotoEndState();
@@ -200,13 +194,14 @@ void Renderer::renderBubbleSort(std::vector<int> &Data, VisualizerStateMachine &
       if (Data.at(j) > Data.at(j + 1))
       {
         // swap if current item j is larger
-        swapInplace(Data.at(j), Data.at(j + 1));
+        // swapInplace(Data.at(j), Data.at(j + 1));
+        swapInplace(&Data.at(j), &Data.at(j + 1));
         // log that a swap has occored in this pass
         haveSwapped = true;
       }
     } // end inner loop
 
-    // rendering current state of data
+    // rendering current state of Data
     this->RenderValues(Data, i, i, "Bubble Sort");
 
     // check if a swap has occored in this pass, if not then we are sorted
@@ -231,23 +226,25 @@ void Renderer::renderInsertSort(std::vector<int> &Data, VisualizerStateMachine &
   {
     // temp store value at index i as will be modifying inplace
     int temp = Data.at(i);
+
     // set j to index before i
     int j = i - 1;
 
     // inner loop
-    // if value at j is larger than value at index i (temp stored) // stop if have moved back through all data
+    // if value at j is larger than value at index i (temp stored) // stop if have moved back through all Data
     while (j >= 0 && Data.at(j) > temp)
     {
       Data.at(j + 1) = Data.at(j);
-      // move back through data
+      // move back through Data
       j--;
     }
     // place temp value
     Data.at(j + 1) = temp;
 
-    // rendering current state of data
+    // rendering current state of Data
     this->RenderValues(Data, i, j, "Insert Sort");
-  }
+
+  } // end outer loop
 
   // algorthm has run send state machine to end state
   VSM.gotoEndState();
@@ -262,11 +259,59 @@ void Renderer::renderMergeSort(std::vector<int> &Data, VisualizerStateMachine &V
   VSM.gotoEndState();
 }
 
+void Renderer::swapInplace(int *a, int *b)
+{
+  int t = *a;
+  *a = *b;
+  *b = t;
+}
+
+void Renderer::quickSort(std::vector<int> &Data, int lowIndex, int highIndex)
+{
+  // check indices are in order
+  if (lowIndex < highIndex)
+  {
+    /// Partition ///
+    int pivotPointValue = Data[highIndex]; // set pivotPointValue to highIndex Value
+
+    int j = lowIndex - 1;   // temp piviot index
+
+    for (int i = lowIndex; i <= highIndex; ++i)
+    {
+      // if element value at i is less than the pivotPointValue then increment j and swap values at i & j
+      if (Data[i] < pivotPointValue)
+      {
+        ++j;
+
+        // render Data
+        this->RenderValues(Data, j, i, "QuickSort");
+
+        swapInplace(&Data[j], &Data[i]); // swap current element with element at temp piviot index
+      }
+    }
+    // set pivotPoint to correct index
+    int pivotPoint = j + 1;
+
+    swapInplace(&Data[j + 1], &Data[highIndex]);
+    /// End partition ///
+
+    /// Recursive calls///
+    // recursiveley quicksort Data on upper side of pivotPoint
+    quickSort(Data, pivotPoint + 1, highIndex);
+    // recursiveley quicksort Data on lower side of pivotPoint
+    quickSort(Data, lowIndex, pivotPoint - 1);
+    /// End recursive calls ///
+  }
+}
+
 void Renderer::renderQuickSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
-  this->RenderValues(Data, 1, 2, "Quick Sort");
+  int lowIndex = 0;
+  int highIndex = Data.size() - 1;
+
+  this->quickSort(Data, lowIndex, highIndex);
 
   VSM.gotoEndState();
 }

@@ -1,6 +1,5 @@
 #include "sortvisualizer.h"
 
-
 SortVisualizer::SortVisualizer(int screenwidth, int screenheight)
 {
   this->ScreenHeight = screenheight;
@@ -13,15 +12,12 @@ void SortVisualizer::SetReset()
 {
 }
 
-
 void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 {
   int CurrentFrameStartTime;
   int CurrentFrameEndTime;
 
   this->isRunning = true;
-
-  // this->VisualizerSM.gotoStartState();
 
   while (this->isRunning)
   {
@@ -75,10 +71,10 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
         test.emplace_back(ValueDistribution(RandomGenerator));
       }
 
-      std::uniform_int_distribution<int> AlgoDistribution(1, 3);
+      std::uniform_int_distribution<int> AlgoDistribution(1, 4);
 
       switch (AlgoDistribution(RandomGenerator))
-      // switch (5)
+      // switch (4)
       {
       case 1:
         renderer.renderSelectSort(test, this->VisualizerSM);
@@ -93,18 +89,16 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
         break;
 
       case 4:
-        renderer.renderMergeSort(test, this->VisualizerSM);
+        renderer.renderQuickSort(test, this->VisualizerSM);
         break;
 
       case 5:
-        renderer.renderQuickSort(test, this->VisualizerSM);
+        renderer.renderMergeSort(test, this->VisualizerSM);
         break;
 
       default:
         break;
       }
-
-      // this->VisualizerSM.gotoStartIdleState();
     }
 
     if (this->VisualizerSM.getCurrentState() == STATE_END)
