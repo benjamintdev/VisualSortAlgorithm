@@ -26,9 +26,7 @@ public:
   void RenderValues(std::vector<int> Values, int red, int green, std::string Title);
 
   void RenderStart(VisualizerStateMachine &VSM);
-
   void RenderEnd(VisualizerStateMachine &VSM);
-
   void RenderInfo(VisualizerStateMachine &VSM);
 
   void RenderMenuIcon(int IconPosition);
@@ -41,17 +39,16 @@ private:
   int ScreenWidth;
   int ScreenHeight;
 
-  void renderTextEffect(std::string text, int size, int x, int y, int level);
-
   void renderTexture(SDL_Texture *SDLTexture, SDL_Renderer *SDLRenderer, SDL_Rect dst, SDL_Rect *clip);
-
   void renderTexture(SDL_Texture *SDLTexture, SDL_Renderer *SDLRenderer, int XPosition, int YPosition, SDL_Rect *clip);
 
   SDL_Texture *renderText(const std::string &Message, const std::string &FontFile, SDL_Color SDLColor, int FontSize, SDL_Renderer *SDLRenderer);
+  void renderTextEffect(std::string text, int size, int x, int y, int level);
 
   void swapInplace(int *a, int *b);
 
-  void quickSort(std::vector<int> & arr, int low, int high);
+  void quickSort(std::vector<int> &Data, int lowIndex, int highIndex);
+  void mergeSort(std::vector<int> &Data, int lowIndex, int highIndex);
 };
 
 #endif

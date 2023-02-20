@@ -73,8 +73,8 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 
       std::uniform_int_distribution<int> AlgoDistribution(1, 4);
 
-      switch (AlgoDistribution(RandomGenerator))
-      // switch (4)
+      // switch (AlgoDistribution(RandomGenerator))
+      switch (5)
       {
       case 1:
         renderer.renderSelectSort(test, this->VisualizerSM);

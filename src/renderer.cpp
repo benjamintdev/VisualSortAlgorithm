@@ -24,6 +24,13 @@ Renderer::~Renderer()
   SDL_Quit();
 }
 
+void Renderer::swapInplace(int *a, int *b)
+{
+  int t = *a;
+  *a = *b;
+  *b = t;
+}
+
 void Renderer::renderTexture(SDL_Texture *SDLTexture, SDL_Renderer *SDLRenderer, SDL_Rect SDLRect_dst, SDL_Rect *SDLRect_src = nullptr)
 {
   SDL_RenderCopy(SDLRenderer, SDLTexture, SDLRect_src, &SDLRect_dst);
@@ -250,20 +257,81 @@ void Renderer::renderInsertSort(std::vector<int> &Data, VisualizerStateMachine &
   VSM.gotoEndState();
 }
 
+void Renderer::mergeSort(std::vector<int> &Data, int lowIndex, int highIndex)
+{
+
+  if (lowIndex >= highIndex)
+  {
+    return;
+  }
+
+  // find midIndex
+  int midIndex = lowIndex + (highIndex - lowIndex) / 2;
+
+  // recursive calls
+  mergeSort(Data, lowIndex, midIndex);
+  mergeSort(Data, midIndex + 1, highIndex);
+
+  // Copy data to temp vectors leftData[] and rightData[]
+  std::vector<int> leftData;
+  std::vector<int> rightData;
+  int leftDataSize = midIndex - lowIndex + 1;
+  int rightDataSize = highIndex - midIndex;
+  for (auto i = 0; i < leftDataSize; i++)
+  {
+    leftData.emplace_back(Data[lowIndex + i]);
+  }
+  for (auto j = 0; j < rightDataSize; j++)
+  {
+    rightData.emplace_back(Data[midIndex + 1 + j]);
+  }
+
+  int i = 0, j = 0; // Initial indcies of leftData && RightData to look at during merge
+  int k = lowIndex; // Initial index of merged Data to look at during merge
+
+  // Merge leftData && RightData into merged Data
+  while (i < leftDataSize && j < rightDataSize)
+  {
+    if (leftData.at(i) <= rightData.at(j))
+    {
+      Data[k] = leftData[i];
+      i++;
+    }
+    else
+    {
+      Data[k] = rightData[j];
+      j++;
+    }
+    k++;
+  }
+
+  // if data being merged are uneven in size then place remaining into merged data at the end
+  // Left
+  while (i < leftDataSize)
+  {
+    Data[k] = leftData[i];
+    i++;
+    k++;
+  }
+  // Right
+  while (j < rightDataSize)
+  {
+    Data[k] = rightData[j];
+    j++;
+    k++;
+  }
+
+  // render Data
+  this->RenderValues(Data, lowIndex, highIndex, "Merge Sort");
+}
+
 void Renderer::renderMergeSort(std::vector<int> &Data, VisualizerStateMachine &VSM)
 {
   this->renderTextEffect("github.com/benjamintdev/VisualSortAlgo", 16, 300, 600, 0);
 
-  this->RenderValues(Data, 1, 2, "Merge Sort");
+  this->mergeSort(Data, 0, Data.size() - 1);
 
   VSM.gotoEndState();
-}
-
-void Renderer::swapInplace(int *a, int *b)
-{
-  int t = *a;
-  *a = *b;
-  *b = t;
 }
 
 void Renderer::quickSort(std::vector<int> &Data, int lowIndex, int highIndex)
@@ -274,7 +342,7 @@ void Renderer::quickSort(std::vector<int> &Data, int lowIndex, int highIndex)
     /// Partition ///
     int pivotPointValue = Data[highIndex]; // set pivotPointValue to highIndex Value
 
-    int j = lowIndex - 1;   // temp piviot index
+    int j = lowIndex - 1; // temp piviot index
 
     for (int i = lowIndex; i <= highIndex; ++i)
     {
