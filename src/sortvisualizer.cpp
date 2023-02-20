@@ -5,7 +5,7 @@ SortVisualizer::SortVisualizer(int screenwidth, int screenheight)
   this->ScreenHeight = screenheight;
   this->ScreenWidth = screenwidth;
 
-  this->SetReset();
+  // this->SetReset();
 }
 
 void SortVisualizer::SetReset()
@@ -60,7 +60,7 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 
     if (this->VisualizerSM.getCurrentState() == STATE_RUN)
     {
-      this->SetReset();
+      // this->SetReset();
 
       std::random_device RandomDevice;
       std::mt19937 RandomGenerator(RandomDevice());
@@ -73,8 +73,7 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
 
       std::uniform_int_distribution<int> AlgoDistribution(1, 4);
 
-      // switch (AlgoDistribution(RandomGenerator))
-      switch (5)
+      switch (AlgoDistribution(RandomGenerator))
       {
       case 1:
         renderer.renderSelectSort(test, this->VisualizerSM);
@@ -118,22 +117,5 @@ void SortVisualizer::Run(Controller const &controller, Renderer &renderer)
     {
       renderer.RenderInfo(this->VisualizerSM);
     }
-
-    // CurrentFrameEndTime = SDL_GetTicks();
-    // this->regulateFrameRate(CurrentFrameEndTime, CurrentFrameStartTime);
   }
 }
-
-// void SortVisualizer::regulateFrameRate(int CurrentFrameEndTime, int CurrentFrameStartTime)
-// {
-//   int RequiredMSPerFrame = 32;
-
-//   if ((CurrentFrameEndTime - CurrentFrameStartTime) < RequiredMSPerFrame)
-//   {
-//     SDL_Delay(RequiredMSPerFrame - (CurrentFrameEndTime - CurrentFrameStartTime));
-//   }
-//   else
-//   {
-//     std::cout << (CurrentFrameEndTime - CurrentFrameStartTime) << std::endl;
-//   }
-// }

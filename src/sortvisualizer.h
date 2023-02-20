@@ -23,8 +23,6 @@ public:
 
   void Run(Controller const &controller, Renderer &renderer);
 
-  // void regulateFrameRate(int frame_end, int frame_start);
-
   bool isRunning = false;
 
 private:
